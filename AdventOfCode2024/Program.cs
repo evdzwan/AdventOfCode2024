@@ -1,4 +1,4 @@
 ﻿using AdventOfCode2024;
 
-Day3.ExecutePart1();
-Day3.ExecutePart2();
+Day4.ExecutePart1();
+Day4.ExecutePart2();

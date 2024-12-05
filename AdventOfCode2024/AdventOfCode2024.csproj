@@ -11,9 +11,4 @@
     <EmbeddedResource Include="Resources/**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\Day2.txt" />
-    <None Remove="Resources\Day3.txt" />
-  </ItemGroup>
-
 </Project>
