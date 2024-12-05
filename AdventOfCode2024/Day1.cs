@@ -26,7 +26,7 @@ static class Day1
         var leftValues = values.Select(v => v.Left).ToArray();
         var rightValues = values.Select(v => v.Right).GroupBy(v => v).ToDictionary(g => g.Key, g => g.Count());
 
-        var total = leftValues.Select(v => rightValues.GetValueOrDefault(v, defaultValue: 0) * v).Sum();
+        var total = leftValues.Sum(v => rightValues.GetValueOrDefault(v, defaultValue: 0) * v);
         Console.WriteLine(total);
     }
 }
