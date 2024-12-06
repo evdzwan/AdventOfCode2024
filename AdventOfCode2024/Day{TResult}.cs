@@ -5,14 +5,26 @@ namespace AdventOfCode2024;
 
 abstract partial class Day<TResult>
 {
+    protected abstract TResult ExamplePart1Solution { get; }
+
+    protected abstract TResult ExamplePart2Solution { get; }
+
     protected virtual string Title => string.Join(" ", TitleRegex().Split(GetType().Name).Where(s => s is { Length: > 0 }));
 
     public void Execute()
     {
+        var exampleInput = LoadText($"{GetType().Name}Example.txt");
         var input = LoadText($"{GetType().Name}.txt");
 
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine(Title);
+        Console.ResetColor();
+
+        Console.Write($"Examples are ");
+        var examplesPart1Valid = ExecutePart1(exampleInput)?.Equals(ExamplePart1Solution) == true;
+        var examplesPart2Valid = ExecutePart2(exampleInput)?.Equals(ExamplePart2Solution) == true;
+        Console.ForegroundColor = examplesPart1Valid && examplesPart2Valid ? ConsoleColor.Green : examplesPart1Valid || examplesPart2Valid ? ConsoleColor.Yellow : ConsoleColor.Red;
+        Console.WriteLine(examplesPart1Valid && examplesPart2Valid ? "both valid" : examplesPart1Valid || examplesPart2Valid ? "partially valid" : "both invalid");
         Console.ResetColor();
 
         Console.Write("Part 1: ");

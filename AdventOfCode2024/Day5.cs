@@ -2,6 +2,10 @@
 
 class Day5 : Day<int>
 {
+    protected override int ExamplePart1Solution { get; } = 143;
+
+    protected override int ExamplePart2Solution { get; } = 123;
+
     protected override int ExecutePart1(string input)
     {
         var parts = input.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
@@ -14,26 +18,8 @@ class Day5 : Day<int>
                               .Select(u => u.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(int.Parse).ToArray())
                               .ToArray();
 
-        var correctUpdates = new List<int[]>();
-        foreach (var update in updates)
-        {
-            var correct = true;
-            for (var i = 0; i < update.Length; i++)
-            {
-                if (update.Take(i).Intersect(rules[update[i]] ?? []).Any())
-                {
-                    correct = false;
-                    break;
-                }
-            }
-
-            if (correct)
-            {
-                correctUpdates.Add(update);
-            }
-        }
-
-        return correctUpdates.Sum(u => u[(u.Length - 1) / 2]);
+        var correctUpdates = GetCorrectUpdates(updates, rules);
+        return correctUpdates.Sum(u => u[(u.Count - 1) / 2]);
     }
 
     protected override int ExecutePart2(string input)
@@ -48,25 +34,7 @@ class Day5 : Day<int>
                               .Select(u => u.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(int.Parse).ToList())
                               .ToArray();
 
-        var correctUpdates = new List<List<int>>();
-        foreach (var update in updates)
-        {
-            var correct = true;
-            for (var i = 0; i < update.Count; i++)
-            {
-                if (update.Take(i).Intersect(rules[update[i]] ?? []).Any())
-                {
-                    correct = false;
-                    break;
-                }
-            }
-
-            if (correct)
-            {
-                correctUpdates.Add(update);
-            }
-        }
-
+        var correctUpdates = GetCorrectUpdates(updates, rules);
         var incorrectUpdates = updates.Except(correctUpdates).ToArray();
         foreach (var update in incorrectUpdates)
         {
@@ -101,5 +69,29 @@ class Day5 : Day<int>
         }
 
         return incorrectUpdates.Sum(u => u[(u.Count - 1) / 2]);
+    }
+
+    static List<IList<int>> GetCorrectUpdates(IEnumerable<IList<int>> updates, ILookup<int, int> rules)
+    {
+        var correctUpdates = new List<IList<int>>();
+        foreach (var update in updates)
+        {
+            var correct = true;
+            for (var i = 0; i < update.Count; i++)
+            {
+                if (update.Take(i).Intersect(rules[update[i]] ?? []).Any())
+                {
+                    correct = false;
+                    break;
+                }
+            }
+
+            if (correct)
+            {
+                correctUpdates.Add(update);
+            }
+        }
+
+        return correctUpdates;
     }
 }

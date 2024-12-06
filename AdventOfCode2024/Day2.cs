@@ -2,6 +2,10 @@
 
 class Day2 : Day<int>
 {
+    protected override int ExamplePart1Solution { get; } = 2;
+
+    protected override int ExamplePart2Solution { get; } = 4;
+
     protected override int ExecutePart1(string input)
     {
         var rows = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
