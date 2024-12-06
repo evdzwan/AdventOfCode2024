@@ -2,23 +2,14 @@
 
 namespace AdventOfCode2024;
 
-static partial class Day3
+partial class Day3 : Day<int>
 {
-    public static void ExecutePart1()
+    protected override int ExecutePart1(string input) => MultiplyRegex().Matches(input).Sum(Multiply);
+
+    protected override int ExecutePart2(string input)
     {
-        var instructions = ResourceLoader.LoadText("Day3.txt");
-
-        var total = MultiplyRegex().Matches(instructions).Sum(Multiply);
-        Console.WriteLine(total);
-    }
-
-    public static void ExecutePart2()
-    {
-        var instructions = ResourceLoader.LoadText("Day3.txt");
-        var parts = instructions.Split("do()", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-
-        var total = parts.Sum(p => MultiplyRegex().Matches(p.Contains("don't()") ? p[..p.IndexOf("don't()")] : p).Sum(Multiply));
-        Console.WriteLine(total);
+        return input.Split("do()", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                    .Sum(p => MultiplyRegex().Matches(p.Contains("don't()") ? p[..p.IndexOf("don't()")] : p).Sum(Multiply));
     }
 
     static int Multiply(Match match) => int.Parse(match.Groups[1].Value) * int.Parse(match.Groups[2].Value);

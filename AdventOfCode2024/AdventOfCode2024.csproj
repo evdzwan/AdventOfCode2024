@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources/**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
 </Project>

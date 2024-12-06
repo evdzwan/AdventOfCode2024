@@ -1,13 +1,12 @@
 ﻿namespace AdventOfCode2024;
 
-static class Day4
+class Day4 : Day<int>
 {
-    public static void ExecutePart1()
+    protected override int ExecutePart1(string input)
     {
-        var instructions = ResourceLoader.LoadText("Day4.txt");
-        var matrix = instructions.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                                 .Select(r => r.ToCharArray())
-                                 .ToArray();
+        var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                          .Select(r => r.ToCharArray())
+                          .ToArray();
 
         var total = 0;
         for (var y = 0; y < matrix.Length; y++)
@@ -59,15 +58,14 @@ static class Day4
             }
         }
 
-        Console.WriteLine(total);
+        return total;
     }
 
-    public static void ExecutePart2()
+    protected override int ExecutePart2(string input)
     {
-        var instructions = ResourceLoader.LoadText("Day4.txt");
-        var matrix = instructions.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                                 .Select(r => r.ToCharArray())
-                                 .ToArray();
+        var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                          .Select(r => r.ToCharArray())
+                          .ToArray();
 
         var total = 0;
         for (var y = 1; y < matrix.Length - 1; y++)
@@ -83,6 +81,6 @@ static class Day4
             }
         }
 
-        Console.WriteLine(total);
+        return total;
     }
 }
