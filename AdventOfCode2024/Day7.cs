@@ -1,21 +1,18 @@
 ﻿namespace AdventOfCode2024;
 
-class Day7() : Day<long>(3_749, 11_387)
+class Day7() : Day<ulong>(3_749, 11_387)
 {
-    protected override long ExecutePart1(string input)
+    protected override ulong ExecutePart1(string input)
     {
         var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                          .Select(r => r.Split(':'))
-                         .Select(p => (Result: long.Parse(p[0]), Values: p[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(long.Parse).ToArray()))
+                         .Select(p => (Result: ulong.Parse(p[0]), Values: p[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(ulong.Parse).ToArray()))
                          .ToArray();
 
-        var total = 0L;
+        var total = 0UL;
         foreach (var (result, values) in lines)
         {
-            var possibleResults = new List<long>();
-
-            ProducePossibleResults(values, possibleResults);
-            if (possibleResults.Contains(result))
+            if (ProducesResult(values, result, max: 2))
             {
                 total += result;
             }
@@ -24,31 +21,77 @@ class Day7() : Day<long>(3_749, 11_387)
         return total;
     }
 
-    protected override long ExecutePart2(string input)
+    protected override ulong ExecutePart2(string input)
     {
-        return 0;
+        var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                                 .Select(r => r.Split(':'))
+                                 .Select(p => (Result: ulong.Parse(p[0]), Values: p[1].Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(ulong.Parse).ToArray()))
+                                 .ToArray();
+
+        var total = 0UL;
+        foreach (var (result, values) in lines)
+        {
+            if (ProducesResult(values, result, max: 3))
+            {
+                total += result;
+            }
+        }
+
+        return total;
     }
 
-    static void ProducePossibleResults(long[] values, List<long> possibleResults)
+    static void GeneratePossibleOperators(List<int> operators, int index, int max, List<int[]> target)
     {
-        var operatorsLength = values.Length - 1;
-        for (var i = 0; i < (1 << operatorsLength); i++)
+        if (index == operators.Count)
         {
-            var binary = Convert.ToString(i, 2);
-            var leadingZeroes = "000000000000"[..(operatorsLength - binary.Length)];
-            var operators = leadingZeroes + binary;
+            target.Add([.. operators]);
+            return;
+        }
 
+        for (var i = 0; i < max; i++)
+        {
+            operators[index] = i;
+            GeneratePossibleOperators(operators, index + 1, max, target);
+        }
+    }
+
+    static ulong Power(ulong value, int exponent)
+    {
+        for (var i = 1; i < exponent; i++)
+        {
+            value *= value;
+        }
+
+        return value;
+    }
+
+    static bool ProducesResult(ulong[] values, ulong result, int max)
+    {
+        var operatorsList = new List<int[]>();
+        GeneratePossibleOperators(Enumerable.Repeat(0, values.Length - 1).ToList(), 0, max, operatorsList);
+
+        var multipliers = values.Select(v => Power(10, v.ToString().Length)).ToArray();
+        var zeroes = values.Select(v => new string(Enumerable.Repeat('0', v.ToString().Length).ToArray())).ToArray();
+
+        foreach (var operators in operatorsList)
+        {
             var value = values[0];
-            for (var o = 0; o < operatorsLength; o++)
+            for (var n = 0; n < operators.Length; n++)
             {
-                value = operators[o] switch
+                value = operators[n] switch
                 {
-                    '0' => value + values[o + 1],
-                    _ => value * values[o + 1]
+                    1 => value * values[n + 1],
+                    2 => ulong.Parse(value.ToString() + zeroes[n + 1]) + values[n + 1],
+                    _ => value + values[n + 1]
                 };
             }
 
-            possibleResults.Add(value);
+            if (value == result)
+            {
+                return true;
+            }
         }
+
+        return false;
     }
 }
