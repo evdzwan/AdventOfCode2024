@@ -12,7 +12,7 @@ class Day7() : Day<ulong>(3_749, 11_387)
         var total = 0UL;
         foreach (var (result, values) in lines)
         {
-            if (ProducesResult(values, result, max: 2))
+            if (Matches(values, result, max: 2))
             {
                 total += result;
             }
@@ -31,7 +31,7 @@ class Day7() : Day<ulong>(3_749, 11_387)
         var total = 0UL;
         foreach (var (result, values) in lines)
         {
-            if (ProducesResult(values, result, max: 3))
+            if (Matches(values, result, max: 3))
             {
                 total += result;
             }
@@ -55,23 +55,10 @@ class Day7() : Day<ulong>(3_749, 11_387)
         }
     }
 
-    static ulong Power(ulong value, int exponent)
-    {
-        for (var i = 1; i < exponent; i++)
-        {
-            value *= value;
-        }
-
-        return value;
-    }
-
-    static bool ProducesResult(ulong[] values, ulong result, int max)
+    static bool Matches(ulong[] values, ulong result, int max)
     {
         var operatorsList = new List<int[]>();
         GeneratePossibleOperators(Enumerable.Repeat(0, values.Length - 1).ToList(), 0, max, operatorsList);
-
-        var multipliers = values.Select(v => Power(10, v.ToString().Length)).ToArray();
-        var zeroes = values.Select(v => new string(Enumerable.Repeat('0', v.ToString().Length).ToArray())).ToArray();
 
         foreach (var operators in operatorsList)
         {
@@ -81,7 +68,7 @@ class Day7() : Day<ulong>(3_749, 11_387)
                 value = operators[n] switch
                 {
                     1 => value * values[n + 1],
-                    2 => ulong.Parse(value.ToString() + zeroes[n + 1]) + values[n + 1],
+                    2 => ulong.Parse($"{value}{values[n + 1]}"),
                     _ => value + values[n + 1]
                 };
             }
