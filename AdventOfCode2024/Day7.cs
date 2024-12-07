@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2024;
 
-class Day7() : Day<long>(3_749, 0)
+class Day7() : Day<long>(3_749, 11_387)
 {
     protected override long ExecutePart1(string input)
     {
@@ -26,7 +26,7 @@ class Day7() : Day<long>(3_749, 0)
 
     protected override long ExecutePart2(string input)
     {
-        throw new NotImplementedException();
+        return 0;
     }
 
     static void ProducePossibleResults(long[] values, List<long> possibleResults)
