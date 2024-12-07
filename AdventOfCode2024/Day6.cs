@@ -1,13 +1,7 @@
-﻿using System.Data;
+﻿namespace AdventOfCode2024;
 
-namespace AdventOfCode2024;
-
-class Day6 : Day<int>
+class Day6() : Day<int>(41, 6)
 {
-    protected override int ExamplePart1Solution { get; } = 41;
-
-    protected override int ExamplePart2Solution { get; } = 6;
-
     protected override int ExecutePart1(string input)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
@@ -104,10 +98,14 @@ class Day6 : Day<int>
 
                 hits[(x, y)] = hit;
                 Rotate(ref dx, ref dy);
-            }
 
-            x += dx;
-            y += dy;
+                visitedPositions?.RemoveAt(visitedPositions.Count - 1);
+            }
+            else
+            {
+                x += dx;
+                y += dy;
+            }
         }
     }
 }

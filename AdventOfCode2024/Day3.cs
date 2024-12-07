@@ -2,12 +2,8 @@
 
 namespace AdventOfCode2024;
 
-partial class Day3 : Day<int>
+partial class Day3() : Day<int>(161, 48)
 {
-    protected override int ExamplePart1Solution { get; } = 161;
-
-    protected override int ExamplePart2Solution { get; } = 48;
-
     protected override int ExecutePart1(string input) => MultiplyRegex().Matches(input).Sum(Multiply);
 
     protected override int ExecutePart2(string input)

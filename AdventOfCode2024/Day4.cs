@@ -1,11 +1,7 @@
 ﻿namespace AdventOfCode2024;
 
-class Day4 : Day<int>
+class Day4() : Day<int>(18, 9)
 {
-    protected override int ExamplePart1Solution { get; } = 18;
-
-    protected override int ExamplePart2Solution { get; } = 9;
-
     protected override int ExecutePart1(string input)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)

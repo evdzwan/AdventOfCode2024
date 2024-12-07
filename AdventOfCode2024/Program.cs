@@ -1,8 +1,9 @@
 ﻿using AdventOfCode2024;
 
-new Day1().Execute();
-new Day2().Execute();
-new Day3().Execute();
-new Day4().Execute();
-new Day5().Execute();
-new Day6().Execute();
+foreach (var day in typeof(Program).Assembly.GetTypes()
+                                            .Where(t => !t.IsAbstract && t.IsAssignableTo(typeof(Day)))
+                                            .OrderBy(t => t.Name)
+                                            .Select(t => (Day)Activator.CreateInstance(t)!))
+{
+    day.Execute();
+}

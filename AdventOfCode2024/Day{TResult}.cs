@@ -1,17 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace AdventOfCode2024;
 
-abstract partial class Day<TResult>
+abstract partial class Day<TResult>(TResult examplePart1Solution, TResult examplePart2Solution) : Day
 {
-    protected abstract TResult ExamplePart1Solution { get; }
-
-    protected abstract TResult ExamplePart2Solution { get; }
-
-    protected virtual string Title => string.Join(" ", TitleRegex().Split(GetType().Name).Where(s => s is { Length: > 0 }));
-
-    public void Execute()
+    public override sealed void Execute()
     {
         var exampleInput = LoadText($"{GetType().Name}Example.txt");
         var input = LoadText($"{GetType().Name}.txt");
@@ -21,10 +14,18 @@ abstract partial class Day<TResult>
         Console.ResetColor();
 
         Console.Write($"Examples are ");
-        var examplesPart1Valid = ExecutePart1(exampleInput)?.Equals(ExamplePart1Solution) == true;
-        var examplesPart2Valid = ExecutePart2(exampleInput)?.Equals(ExamplePart2Solution) == true;
-        Console.ForegroundColor = examplesPart1Valid && examplesPart2Valid ? ConsoleColor.Green : examplesPart1Valid || examplesPart2Valid ? ConsoleColor.Yellow : ConsoleColor.Red;
-        Console.WriteLine(examplesPart1Valid && examplesPart2Valid ? "both valid" : examplesPart1Valid || examplesPart2Valid ? "partially valid" : "both invalid");
+        try
+        {
+            var examplesPart1Valid = ExecutePart1(exampleInput)?.Equals(examplePart1Solution) == true;
+            var examplesPart2Valid = ExecutePart2(exampleInput)?.Equals(examplePart2Solution) == true;
+            Console.ForegroundColor = examplesPart1Valid && examplesPart2Valid ? ConsoleColor.Green : examplesPart1Valid || examplesPart2Valid ? ConsoleColor.Yellow : ConsoleColor.Red;
+            Console.WriteLine(examplesPart1Valid && examplesPart2Valid ? "all valid" : examplesPart1Valid || examplesPart2Valid ? "partially valid" : "all invalid");
+        }
+        catch
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("all invalid");
+        }
         Console.ResetColor();
 
         Console.Write("Part 1: ");
@@ -80,7 +81,4 @@ abstract partial class Day<TResult>
         duration = watch.ElapsedMilliseconds;
         return result;
     }
-
-    [GeneratedRegex(@"(\D+)(\d+)")]
-    private static partial Regex TitleRegex();
 }
