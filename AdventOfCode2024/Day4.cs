@@ -2,7 +2,7 @@
 
 class Day4() : Day<int>(18, 9)
 {
-    protected override int ExecutePart1(string input)
+    protected override int ExecutePart1(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(r => r.ToCharArray())
@@ -61,7 +61,7 @@ class Day4() : Day<int>(18, 9)
         return total;
     }
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(r => r.ToCharArray())

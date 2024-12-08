@@ -2,7 +2,7 @@
 
 class Day6() : Day<int>(41, 6)
 {
-    protected override int ExecutePart1(string input)
+    protected override int ExecutePart1(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(r => r.ToList())
@@ -17,7 +17,7 @@ class Day6() : Day<int>(41, 6)
         return visitedPositions.Distinct().Count();
     }
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(r => r.ToList())

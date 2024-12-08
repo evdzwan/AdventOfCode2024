@@ -2,7 +2,7 @@
 
 class Day1() : Day<int>(11, 31)
 {
-    protected override int ExecutePart1(string input)
+    protected override int ExecutePart1(string input, bool example)
     {
         var values = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(v => v.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
@@ -14,7 +14,7 @@ class Day1() : Day<int>(11, 31)
         return sortedLeftValues.Select((v, i) => Math.Abs(sortedRightValues[i] - v)).Sum();
     }
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         var values = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                           .Select(v => v.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))

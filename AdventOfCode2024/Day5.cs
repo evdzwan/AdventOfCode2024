@@ -2,7 +2,7 @@
 
 class Day5() : Day<int>(143, 123)
 {
-    protected override int ExecutePart1(string input)
+    protected override int ExecutePart1(string input, bool example)
     {
         var parts = input.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
 
@@ -18,7 +18,7 @@ class Day5() : Day<int>(143, 123)
         return correctUpdates.Sum(u => u[(u.Count - 1) / 2]);
     }
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         var parts = input.Split($"{Environment.NewLine}{Environment.NewLine}", StringSplitOptions.RemoveEmptyEntries);
 

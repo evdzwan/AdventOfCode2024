@@ -4,9 +4,9 @@ namespace AdventOfCode2024;
 
 partial class Day3() : Day<int>(161, 48)
 {
-    protected override int ExecutePart1(string input) => MultiplyRegex().Matches(input).Sum(Multiply);
+    protected override int ExecutePart1(string input, bool example) => MultiplyRegex().Matches(input).Sum(Multiply);
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         return input.Split("do()", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                     .Sum(p => MultiplyRegex().Matches(p.Contains("don't()") ? p[..p.IndexOf("don't()")] : p).Sum(Multiply));

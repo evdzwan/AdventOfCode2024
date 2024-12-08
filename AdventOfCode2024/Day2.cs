@@ -2,7 +2,7 @@
 
 class Day2() : Day<int>(2, 4)
 {
-    protected override int ExecutePart1(string input)
+    protected override int ExecutePart1(string input, bool example)
     {
         var rows = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                         .Select(r => r.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(int.Parse));
@@ -12,7 +12,7 @@ class Day2() : Day<int>(2, 4)
                    .Count(r => r.All(d => d is >= 1 and <= 3));
     }
 
-    protected override int ExecutePart2(string input)
+    protected override int ExecutePart2(string input, bool example)
     {
         var rows = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                         .Select(r => r.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)

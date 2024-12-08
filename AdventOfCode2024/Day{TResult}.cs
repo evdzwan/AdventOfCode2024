@@ -16,8 +16,8 @@ abstract partial class Day<TResult>(TResult examplePart1Solution, TResult exampl
         Console.Write($"Examples are ");
         try
         {
-            var examplesPart1Valid = ExecutePart1(exampleInput)?.Equals(examplePart1Solution) == true;
-            var examplesPart2Valid = ExecutePart2(exampleInput)?.Equals(examplePart2Solution) == true;
+            var examplesPart1Valid = ExecutePart1(exampleInput, example: true)?.Equals(examplePart1Solution) == true;
+            var examplesPart2Valid = ExecutePart2(exampleInput, example: true)?.Equals(examplePart2Solution) == true;
             Console.ForegroundColor = examplesPart1Valid && examplesPart2Valid ? ConsoleColor.Green : examplesPart1Valid || examplesPart2Valid ? ConsoleColor.Yellow : ConsoleColor.Red;
             Console.WriteLine(examplesPart1Valid && examplesPart2Valid ? "all valid" : examplesPart1Valid || examplesPart2Valid ? "partially valid" : "all invalid");
         }
@@ -32,7 +32,7 @@ abstract partial class Day<TResult>(TResult examplePart1Solution, TResult exampl
         try
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(Measure(() => ExecutePart1(input), out var part1Duration));
+            Console.Write(Measure(() => ExecutePart1(input, example: false), out var part1Duration));
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine($" ({part1Duration}ms)");
         }
@@ -47,7 +47,7 @@ abstract partial class Day<TResult>(TResult examplePart1Solution, TResult exampl
         try
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(Measure(() => ExecutePart2(input), out var part2Duration));
+            Console.Write(Measure(() => ExecutePart2(input, example: false), out var part2Duration));
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine($" ({part2Duration}ms)");
         }
@@ -61,9 +61,9 @@ abstract partial class Day<TResult>(TResult examplePart1Solution, TResult exampl
         Console.WriteLine();
     }
 
-    protected abstract TResult ExecutePart1(string input);
+    protected abstract TResult ExecutePart1(string input, bool example);
 
-    protected abstract TResult ExecutePart2(string input);
+    protected abstract TResult ExecutePart2(string input, bool example);
 
     static string LoadText(string resourceName)
     {

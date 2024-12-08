@@ -2,7 +2,7 @@
 
 class Day7() : Day<ulong>(3_749, 11_387)
 {
-    protected override ulong ExecutePart1(string input)
+    protected override ulong ExecutePart1(string input, bool example)
     {
         var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                          .Select(r => r.Split(':'))
@@ -21,7 +21,7 @@ class Day7() : Day<ulong>(3_749, 11_387)
         return total;
     }
 
-    protected override ulong ExecutePart2(string input)
+    protected override ulong ExecutePart2(string input, bool example)
     {
         var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
                                  .Select(r => r.Split(':'))
