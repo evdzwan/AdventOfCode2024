@@ -1,10 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 
 namespace AdventOfCode2024;
 
 abstract partial class Day<TResult>(TResult examplePart1Solution, TResult examplePart2Solution) : Day
 {
-    public override sealed void Execute()
+    public override sealed void Execute(bool skipLengthyParts)
     {
         var exampleInput = LoadText($"{GetType().Name}Example.txt");
         var input = LoadText($"{GetType().Name}.txt");
@@ -21,40 +22,56 @@ abstract partial class Day<TResult>(TResult examplePart1Solution, TResult exampl
             Console.ForegroundColor = examplesPart1Valid && examplesPart2Valid ? ConsoleColor.Green : examplesPart1Valid || examplesPart2Valid ? ConsoleColor.Yellow : ConsoleColor.Red;
             Console.WriteLine(examplesPart1Valid && examplesPart2Valid ? "all valid" : examplesPart1Valid || examplesPart2Valid ? "partially valid" : "all invalid");
         }
-        catch
+        catch (Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("all invalid");
+            Console.WriteLine($"invalid: {ex.Message}");
         }
         Console.ResetColor();
 
         Console.Write("Part 1: ");
-        try
+        if (skipLengthyParts && GetType().GetMethod(nameof(ExecutePart1), BindingFlags.Instance | BindingFlags.NonPublic)?.GetCustomAttribute<TakesAWhileAttribute>() is not null)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(Measure(() => ExecutePart1(input, example: false), out var part1Duration));
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($" ({part1Duration}ms)");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Skipped");
         }
-        catch (Exception ex)
+        else
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(ex.Message);
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(Measure(() => ExecutePart1(input, example: false), out var part1Duration));
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($" ({part1Duration}ms)");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+            }
         }
         Console.ResetColor();
 
         Console.Write("Part 2: ");
-        try
+        if (skipLengthyParts && GetType().GetMethod(nameof(ExecutePart2), BindingFlags.Instance | BindingFlags.NonPublic)?.GetCustomAttribute<TakesAWhileAttribute>() is not null)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write(Measure(() => ExecutePart2(input, example: false), out var part2Duration));
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine($" ({part2Duration}ms)");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("Skipped");
         }
-        catch (Exception ex)
+        else
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(ex.Message);
+            try
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(Measure(() => ExecutePart2(input, example: false), out var part2Duration));
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($" ({part2Duration}ms)");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+            }
         }
         Console.ResetColor();
 
