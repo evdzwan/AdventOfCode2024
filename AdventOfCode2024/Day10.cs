@@ -15,7 +15,7 @@ class Day10() : Day<int>(36, 81)
         var matrix = input.Split(Environment.NewLine).Select(r => r.Select(c => c - '0').ToArray()).ToArray();
         var size = matrix.Length;
 
-        return Enumerable.Range(0, size).SelectMany(y => Enumerable.Range(0, size).Select(x => GetTrailheads(matrix, size, x, y, 0, 9).Count())).Sum();
+        return Enumerable.Range(0, size).SelectMany(y => Enumerable.Range(0, size).Select(x => GetTrailheads(matrix, size, x, y, 0, 9).Length)).Sum();
     }
 
     static (int X, int Y)[] GetTrailheads(int[][] matrix, int size, int x, int y, int current, int target)
