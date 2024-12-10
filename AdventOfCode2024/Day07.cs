@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2024;
 
-class Day7() : Day<ulong>(3_749, 11_387)
+class Day07() : Day<ulong>(3_749, 11_387)
 {
     protected override ulong ExecutePart1(string input, bool example)
     {

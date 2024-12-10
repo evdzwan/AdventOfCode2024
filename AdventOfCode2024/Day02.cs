@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2024;
 
-class Day2() : Day<int>(2, 4)
+class Day02() : Day<int>(2, 4)
 {
     protected override int ExecutePart1(string input, bool example)
     {

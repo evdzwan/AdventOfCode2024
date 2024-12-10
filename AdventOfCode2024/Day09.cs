@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2024;
 
-class Day9() : Day<long>(1_928, 2_858)
+class Day09() : Day<long>(1_928, 2_858)
 {
     const long Empty = -1L;
 

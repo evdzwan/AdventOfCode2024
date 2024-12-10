@@ -2,7 +2,7 @@
 
 namespace AdventOfCode2024;
 
-partial class Day3() : Day<int>(161, 48)
+partial class Day03() : Day<int>(161, 48)
 {
     protected override int ExecutePart1(string input, bool example) => MultiplyRegex().Matches(input).Sum(Multiply);
 
