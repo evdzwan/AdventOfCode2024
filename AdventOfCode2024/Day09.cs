@@ -4,6 +4,7 @@ class Day09() : Day<long>(1_928, 2_858)
 {
     const long Empty = -1L;
 
+    [TakesAWhile]
     protected override long ExecutePart1(string input, bool example)
     {
         var disk = input.SelectMany((v, i) => i % 2 == 0 ? Enumerable.Repeat((long)(i / 2), int.Parse(v.ToString())) : Enumerable.Repeat(Empty, int.Parse(v.ToString()))).ToList();

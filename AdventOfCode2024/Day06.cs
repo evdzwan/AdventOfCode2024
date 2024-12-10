@@ -17,6 +17,7 @@ class Day06() : Day<int>(41, 6)
         return visitedPositions.Distinct().Count();
     }
 
+    [TakesAWhile]
     protected override int ExecutePart2(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
