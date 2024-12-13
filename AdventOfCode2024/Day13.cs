@@ -15,7 +15,11 @@ class Day13() : Day<long>(480, 0)
                                                Prize: i[2].Split([' ', ','], StringSplitOptions.RemoveEmptyEntries).TakeLast(2).Select(j => long.Parse(j.Split('=')[1])).ToArray()))
                                  .ToArray();
 
-        return machines.Sum(m => Math.Min(GetMinimalTokenAmountUsingA(m.A, m.B, m.Prize), GetMinimalTokenAmountUsingB(m.A, m.B, m.Prize)));
+        return machines.Sum(m =>
+        {
+            var amount = Math.Min(GetMinimalTokenAmountUsingA(m.A, m.B, m.Prize), GetMinimalTokenAmountUsingB(m.A, m.B, m.Prize));
+            return amount == long.MaxValue ? 0 : amount;
+        });
     }
 
     [TakesAWhile]
@@ -29,7 +33,11 @@ class Day13() : Day<long>(480, 0)
                                                Prize: i[2].Split([' ', ','], StringSplitOptions.RemoveEmptyEntries).TakeLast(2).Select(j => 1_000_000_0000_000 + long.Parse(j.Split('=')[1])).ToArray()))
                                  .ToArray();
 
-        return machines.Sum(m => Math.Min(GetMinimalTokenAmountUsingA(m.A, m.B, m.Prize), GetMinimalTokenAmountUsingB(m.A, m.B, m.Prize)));
+        return machines.Sum(m =>
+        {
+            var amount = Math.Min(GetMinimalTokenAmountUsingA(m.A, m.B, m.Prize), GetMinimalTokenAmountUsingB(m.A, m.B, m.Prize));
+            return amount == long.MaxValue ? 0 : amount;
+        });
     }
 
     static long GetMinimalTokenAmountUsingA(int[] a, int[] b, long[] prize)
@@ -60,14 +68,14 @@ class Day13() : Day<long>(480, 0)
             }
         }
 
-        return amount == long.MaxValue ? 0 : amount;
+        return amount;
     }
 
     static long GetMinimalTokenAmountUsingB(int[] a, int[] b, long[] prize)
     {
         var amount = long.MaxValue;
-        
-        for (var countB = Math.Min(prize[X] / b[X], prize[Y] / b[Y]); countB >= 0;countB--)
+
+        for (var countB = Math.Min(prize[X] / b[X], prize[Y] / b[Y]); countB >= 0; countB--)
         {
             var remainderX = (prize[X] - countB * b[X]) % a[X];
             var remainderY = (prize[Y] - countB * b[Y]) % a[Y];
@@ -91,6 +99,6 @@ class Day13() : Day<long>(480, 0)
             }
         }
 
-        return amount == long.MaxValue ? 0 : amount;
+        return amount;
     }
 }
