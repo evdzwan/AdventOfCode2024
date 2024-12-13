@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace AdventOfCode2024;
+﻿namespace AdventOfCode2024;
 
 class Day13() : Day<long>(480, 0)
 {
