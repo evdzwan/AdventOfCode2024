@@ -27,6 +27,7 @@ class Day12() : Day<int>(1_930, 1_206)
         return total;
     }
 
+    [TakesAWhile]
     protected override int ExecutePart2(string input, bool example)
     {
         var matrix = input.Split(Environment.NewLine).Select(r => r.ToCharArray()).ToArray();
@@ -88,9 +89,9 @@ class Day12() : Day<int>(1_930, 1_206)
     static int GetSides(List<(int X, int Y)> area)
     {
         return area.Where(c => !area.Contains(c with { X = c.X - 1 })).OrderBy(c => c.Y).GroupBy(c => c.X, c => c.Y).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum() +
-                area.Where(c => !area.Contains(c with { Y = c.Y - 1 })).OrderBy(c => c.X).GroupBy(c => c.Y, c => c.X).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum() +
-                area.Where(c => !area.Contains(c with { X = c.X + 1 })).OrderBy(c => c.Y).GroupBy(c => c.X, c => c.Y).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum() +
-                area.Where(c => !area.Contains(c with { Y = c.Y + 1 })).OrderBy(c => c.X).GroupBy(c => c.Y, c => c.X).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum();
+               area.Where(c => !area.Contains(c with { Y = c.Y - 1 })).OrderBy(c => c.X).GroupBy(c => c.Y, c => c.X).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum() +
+               area.Where(c => !area.Contains(c with { X = c.X + 1 })).OrderBy(c => c.Y).GroupBy(c => c.X, c => c.Y).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum() +
+               area.Where(c => !area.Contains(c with { Y = c.Y + 1 })).OrderBy(c => c.X).GroupBy(c => c.Y, c => c.X).Select(g => GroupWhile(g, (a, b) => b - a == 1).Count()).Sum();
     }
 
     static IEnumerable<List<T>> GroupWhile<T>(IEnumerable<T> collection, Func<T, T, bool> condition)
