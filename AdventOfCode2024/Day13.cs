@@ -4,7 +4,7 @@ class Day13() : Day<long>(480, 875_318_608_908)
 {
     const int A = 0;
     const int B = 1;
-    const int Prize = 2;
+    const int PRIZE = 2;
 
     const int X = 0;
     const int Y = 1;
@@ -20,8 +20,8 @@ class Day13() : Day<long>(480, 875_318_608_908)
                 continue;
             }
 
-            var dx = machine[Prize][X] * machine[B][Y] - machine[Prize][Y] * machine[B][X];
-            var dy = machine[A][X] * machine[Prize][Y] - machine[A][Y] * machine[Prize][X];
+            var dx = machine[PRIZE][X] * machine[B][Y] - machine[PRIZE][Y] * machine[B][X];
+            var dy = machine[A][X] * machine[PRIZE][Y] - machine[A][Y] * machine[PRIZE][X];
             if (dx % d == 0 && dy % d == 0)
             {
                 total += dx / d * 3 + dy / d;
@@ -44,8 +44,8 @@ class Day13() : Day<long>(480, 875_318_608_908)
                 continue;
             }
 
-            var dx = (Offset + machine[Prize][X]) * machine[B][Y] - (Offset + machine[Prize][Y]) * machine[B][X];
-            var dy = machine[A][X] * (Offset + machine[Prize][Y]) - machine[A][Y] * (Offset + machine[Prize][X]);
+            var dx = (Offset + machine[PRIZE][X]) * machine[B][Y] - (Offset + machine[PRIZE][Y]) * machine[B][X];
+            var dy = machine[A][X] * (Offset + machine[PRIZE][Y]) - machine[A][Y] * (Offset + machine[PRIZE][X]);
             if (dx % d == 0 && dy % d == 0)
             {
                 total += dx / d * 3 + dy / d;
