@@ -22,7 +22,7 @@ class Day13() : Day<long>(480, 875_318_608_908)
 
             var dx = machine[Prize][X] * machine[B][Y] - machine[Prize][Y] * machine[B][X];
             var dy = machine[A][X] * machine[Prize][Y] - machine[A][Y] * machine[Prize][X];
-            if (dx % d == 0 && dx % d == 0)
+            if (dx % d == 0 && dy % d == 0)
             {
                 total += dx / d * 3 + dy / d;
             }
@@ -46,7 +46,7 @@ class Day13() : Day<long>(480, 875_318_608_908)
 
             var dx = (Offset + machine[Prize][X]) * machine[B][Y] - (Offset + machine[Prize][Y]) * machine[B][X];
             var dy = machine[A][X] * (Offset + machine[Prize][Y]) - machine[A][Y] * (Offset + machine[Prize][X]);
-            if (dx % d == 0 && dx % d == 0)
+            if (dx % d == 0 && dy % d == 0)
             {
                 total += dx / d * 3 + dy / d;
             }
