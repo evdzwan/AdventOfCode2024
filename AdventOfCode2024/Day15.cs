@@ -1,6 +1,4 @@
-﻿using System.Runtime;
-
-namespace AdventOfCode2024;
+﻿namespace AdventOfCode2024;
 
 class Day15() : Day<int>(10_092, 9_021)
 {
@@ -81,70 +79,153 @@ class Day15() : Day<int>(10_092, 9_021)
         switch (direction)
         {
             case LEFT:
-                for (var x = position.X - 1; map[position.Y][x] != WALL; x--)
+                bool CanMoveLeft((int X, int Y) pos, List<(int X, int Y)> affected)
                 {
-                    if (map[position.Y][x] == EMPTY)
+                    switch (map[pos.Y][pos.X])
                     {
-                        for (var dx = x; dx < position.X; dx++)
-                        {
-                            map[position.Y][dx] = map[position.Y][dx + 1];
-                        }
-
-                        return (position.X - 1, position.Y);
+                        case BOX:
+                        case BOXLEFT:
+                        case BOXRIGHT:
+                        case ROBOT:
+                            affected.Add(pos);
+                            return CanMoveLeft(pos with { X = pos.X - 1 }, affected);
+                        case EMPTY:
+                            return true;
+                        case WALL:
+                            return false;
                     }
+
+                    throw new ArgumentException($"Invalid character found at {pos}: {map[pos.Y][pos.X]}", nameof(pos));
+                }
+
+                var affectedLeftPositions = new List<(int X, int Y)>();
+                if (CanMoveLeft(position, affectedLeftPositions))
+                {
+                    foreach (var (x, y) in affectedLeftPositions.OrderBy(p => p.X))
+                    {
+                        map[y][x - 1] = map[y][x];
+                        map[y][x] = EMPTY;
+                    };
+
+                    return (position.X - 1, position.Y);
                 }
 
                 break;
             case UP:
                 bool CanMoveUp((int X, int Y) pos, List<(int X, int Y)> affected)
                 {
+                    if (affected.Contains(pos))
+                    {
+                        return true;
+                    }
+
                     switch (map[pos.Y][pos.X])
                     {
                         case BOX:
                         case ROBOT:
                             affected.Add(pos);
-                            return CanMoveUp(pos with { Y = pos.Y + 1 }, affected);
+                            return CanMoveUp(pos with { Y = pos.Y - 1 }, affected);
                         case BOXLEFT:
                             affected.Add(pos);
-                            return CanMoveUp(pos with { Y = pos.Y + 1 }, affected) && CanMoveUp(pos with { X = pos.X + 1, Y = pos.Y + 1 }, affected);
+                            return CanMoveUp(pos with { Y = pos.Y - 1 }, affected) && CanMoveUp(pos with { X = pos.X + 1 }, affected);
                         case BOXRIGHT:
                             affected.Add(pos);
-                            return CanMoveUp(pos with { Y = pos.Y + 1 }, affected) && CanMoveUp(pos with { X = pos.X - 1, Y = pos.Y + 1 }, affected);
+                            return CanMoveUp(pos with { Y = pos.Y - 1 }, affected) && CanMoveUp(pos with { X = pos.X - 1 }, affected);
                         case EMPTY:
                             return true;
+                        case WALL:
+                            return false;
                     }
 
-                    return false;
+                    throw new ArgumentException($"Invalid character found at {pos}: {map[pos.Y][pos.X]}", nameof(pos));
                 }
 
-                void MoveUp(List<(int X, int Y)> positions)
+                var affectedUpPositions = new List<(int X, int Y)>();
+                if (CanMoveUp(position, affectedUpPositions))
                 {
-                    positions.ForEach(p => map[p.Y + 1][p.X] = map[p.Y][p.X]);
-                }
+                    foreach (var (x, y) in affectedUpPositions.OrderBy(p => p.Y))
+                    {
+                        map[y - 1][x] = map[y][x];
+                        map[y][x] = EMPTY;
+                    };
 
-                var affectedPositions = new List<(int X, int Y)>();
-                if (CanMoveUp(position, affectedPositions))
-                {
-                    MoveUp(affectedPositions);
+                    return (position.X, position.Y - 1);
                 }
 
                 break;
             case RIGHT:
-                for (var x = position.X + 1; map[position.Y][x] != WALL; x++)
+                bool CanMoveRight((int X, int Y) pos, List<(int X, int Y)> affected)
                 {
-                    if (map[position.Y][x] == EMPTY)
+                    switch (map[pos.Y][pos.X])
                     {
-                        for (var dx = x; dx > position.X; dx--)
-                        {
-                            map[position.Y][dx] = map[position.Y][dx - 1];
-                        }
-
-                        return (position.X + 1, position.Y);
+                        case BOX:
+                        case BOXLEFT:
+                        case BOXRIGHT:
+                        case ROBOT:
+                            affected.Add(pos);
+                            return CanMoveRight(pos with { X = pos.X + 1 }, affected);
+                        case EMPTY:
+                            return true;
+                        case WALL:
+                            return false;
                     }
+
+                    throw new ArgumentException($"Invalid character found at {pos}: {map[pos.Y][pos.X]}", nameof(pos));
+                }
+
+                var affectedRightPositions = new List<(int X, int Y)>();
+                if (CanMoveRight(position, affectedRightPositions))
+                {
+                    foreach (var (x, y) in affectedRightPositions.OrderByDescending(p => p.X))
+                    {
+                        map[y][x + 1] = map[y][x];
+                        map[y][x] = EMPTY;
+                    };
+
+                    return (position.X + 1, position.Y);
                 }
 
                 break;
             case DOWN:
+                bool CanMoveDown((int X, int Y) pos, List<(int X, int Y)> affected)
+                {
+                    if (affected.Contains(pos))
+                    {
+                        return true;
+                    }
+
+                    switch (map[pos.Y][pos.X])
+                    {
+                        case BOX:
+                        case ROBOT:
+                            affected.Add(pos);
+                            return CanMoveDown(pos with { Y = pos.Y + 1 }, affected);
+                        case BOXLEFT:
+                            affected.Add(pos);
+                            return CanMoveDown(pos with { Y = pos.Y + 1 }, affected) && CanMoveDown(pos with { X = pos.X + 1 }, affected);
+                        case BOXRIGHT:
+                            affected.Add(pos);
+                            return CanMoveDown(pos with { Y = pos.Y + 1 }, affected) && CanMoveDown(pos with { X = pos.X - 1 }, affected);
+                        case EMPTY:
+                            return true;
+                        case WALL:
+                            return false;
+                    }
+
+                    throw new ArgumentException($"Invalid character found at {pos}: {map[pos.Y][pos.X]}", nameof(pos));
+                }
+
+                var affectedDownPositions = new List<(int X, int Y)>();
+                if (CanMoveDown(position, affectedDownPositions))
+                {
+                    foreach (var (x, y) in affectedDownPositions.OrderByDescending(p => p.Y))
+                    {
+                        map[y + 1][x] = map[y][x];
+                        map[y][x] = EMPTY;
+                    };
+
+                    return (position.X, position.Y + 1);
+                }
 
                 break;
         }
