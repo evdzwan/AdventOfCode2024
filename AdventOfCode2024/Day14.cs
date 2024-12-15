@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode2024;
+﻿using System.ComponentModel;
+
+namespace AdventOfCode2024;
 
 class Day14() : Day<int>(12, 0)
 {
@@ -40,7 +42,7 @@ class Day14() : Day<int>(12, 0)
         var robots = GetRobots(input);
         for (var seconds = 0; ; seconds++)
         {
-            if (IsChristmasTree(robots, width, height))
+            if (IsChristmasTree(robots))
             {
                 return seconds;
             }
@@ -70,7 +72,7 @@ class Day14() : Day<int>(12, 0)
                robots.Count(r => r[POSITION][X] >= ((width + 1) / 2) && r[POSITION][Y] >= ((height + 1) / 2));
     }
 
-    static bool IsChristmasTree(int[][][] robots, int width, int height)
+    static bool IsChristmasTree(int[][][] robots)
     {
         var lookup = robots.ToLookup(r => (X: r[POSITION][X], Y: r[POSITION][Y]));
         foreach (var group in lookup)
@@ -105,10 +107,10 @@ class Day14() : Day<int>(12, 0)
 
         return false;
 
-        bool ContainsRow((int X, int Y) coordinate, int size)
+        bool ContainsRow((int X, int Y) center, int size)
         {
-            return Enumerable.Range(coordinate.X - (size - 1) / 2, size)
-                             .All(x => lookup.Contains(coordinate with { X = x }));
+            return Enumerable.Range(center.X - (size - 1) / 2, size)
+                             .All(x => lookup.Contains(center with { X = x }));
         }
     }
 }
