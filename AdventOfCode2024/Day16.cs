@@ -50,7 +50,7 @@ class Day16() : Day<int>(7_036, 45)
             var (cx, cy, cdir, ccost) = queue.Dequeue();
             if (cx == ex && cy == ey)
             {
-                //break;
+                break;
             }
 
             foreach (var (nx, ny, ndir, ncost) in GetNextMoves(maze, cx, cy, cdir))
@@ -84,25 +84,26 @@ class Day16() : Day<int>(7_036, 45)
             }
         }
 
-        var beh = nodes.Select(n => (n.X, n.Y)).Distinct().ToArray();
-        var lookup = beh.ToDictionary(p => p);
+        return nodes.Select(n => (n.X, n.Y)).Distinct().Count();
+        //var beh = nodes.Select(n => (n.X, n.Y)).Distinct().ToArray();
+        //var lookup = beh.ToDictionary(p => p);
 
-        using var writer = File.CreateText(@$"Aap{(example ? "Example" : "")}.txt");
-        for (var y = 0; y < maze.Length; y++)
-        {
-            for (var x = 0; x < maze[y].Length; x++)
-            {
-                if (lookup.ContainsKey((x, y)) && maze[y][x] == '#')
-                {
-                    throw new InvalidOperationException();
-                }
+        //using var writer = File.CreateText(@$"Aap{(example ? "Example" : "")}.txt");
+        //for (var y = 0; y < maze.Length; y++)
+        //{
+        //    for (var x = 0; x < maze[y].Length; x++)
+        //    {
+        //        if (lookup.ContainsKey((x, y)) && maze[y][x] == '#')
+        //        {
+        //            throw new InvalidOperationException();
+        //        }
 
-                writer.Write(lookup.ContainsKey((x, y)) ? 'O' : maze[y][x]);
-            }
-            writer.WriteLine();
-        }
+        //        writer.Write(lookup.ContainsKey((x, y)) ? 'O' : maze[y][x]);
+        //    }
+        //    writer.WriteLine();
+        //}
 
-        return beh.Length;
+        //return beh.Length;
     }
 
     static IEnumerable<(int, int, int, int)> GetNextMoves(char[][] maze, int cx, int cy, int cdir)
